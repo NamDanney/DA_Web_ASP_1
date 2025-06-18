@@ -1,0 +1,86 @@
+﻿<section class="travel-plan-section">
+    <div class="travel-plan-bg">
+        <div class="bg-overlay"></div>
+        <div class="bg-pattern"></div>
+    </div>
+
+    <div class="container position-relative">
+        <div class="travel-plan-header">
+            <div class="plan-badge">Lập kế hoạch</div>
+            <h2 class="plan-title">Bắt đầu <span class="highlight">Hành trình</span> của bạn</h2>
+            <p class="plan-subtitle">
+                Lên kế hoạch cho chuyến đi hoàn hảo đến Phú Yên chỉ với vài bước đơn giản.
+                Chúng tôi giúp bạn tạo ra một lịch trình du lịch phù hợp nhất.
+            </p>
+        </div>
+
+        <div class="travel-plan-steps">
+            <div class="step-timeline">
+                <div class="timeline-track">
+                    <div id="timeline-progress" class="timeline-progress" style="width: 0%;"></div>
+                </div>
+
+                <div id="timeline-points-wrapper" class="timeline-points-wrapper">
+                    <!-- Các điểm trên timeline sẽ được tạo bởi JS -->
+                </div>
+            </div>
+
+            <div id="step-cards-container" class="step-cards">
+                <!-- Các thẻ mô tả bước sẽ được tạo bởi JS -->
+
+                <div class="step-navigation">
+                    <button id="btn-prev" class="btn-prev" disabled>
+                        <i class="bi bi-arrow-left"></i>
+                        <span>Trước</span>
+                    </button>
+
+                    <button id="btn-next" class="btn-next">
+                        <span>Tiếp theo</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+
+                    <a id="btn-create-plan" asp-controller="Plan" asp-action="Index" class="btn-create-plan" style="display: none;">
+                        <span>Tạo Lịch Trình</span>
+                        <i class="bi bi-calendar-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="travel-plan-features">
+            <div class="plan-feature">
+                <div class="feature-icon">
+                    <i class="bi bi-calendar-check"></i>
+                </div>
+                <h4>Tiết kiệm thời gian</h4>
+                <p>Tối ưu hóa lịch trình với các gợi ý lộ trình thông minh</p>
+            </div>
+
+            <div class="plan-feature">
+                <div class="feature-icon">
+                    <i class="bi bi-piggy-bank"></i>
+                </div>
+                <h4>Quản lý chi phí</h4>
+                <p>Ước tính ngân sách và tìm các lựa chọn phù hợp với túi tiền</p>
+            </div>
+
+            <div class="plan-feature">
+                <div class="feature-icon">
+                    <i class="bi bi-share"></i>
+                </div>
+                <h4>Chia sẻ dễ dàng</h4>
+                <p>Mời bạn bè đóng góp ý kiến hoặc tham gia lập kế hoạch cùng bạn</p>
+            </div>
+        </div>
+
+        <div class="travel-plan-cta">
+            <a asp-controller="Plan" asp-action="Index" class="btn-get-started">
+                <span>Bắt đầu ngay</span>
+                <i class="bi bi-arrow-right"></i>
+            </a>
+            <a asp-controller="Locations" asp-action="Index" class="btn-explore-more">
+                Khám phá địa điểm
+            </a>
+        </div>
+    </div>
+</section>

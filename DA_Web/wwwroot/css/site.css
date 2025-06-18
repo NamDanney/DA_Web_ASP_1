@@ -1,0 +1,52 @@
+﻿:root {
+    --primary: #0072bb; /* Màu từ dự án React của bạn */
+    --primary-dark: #005a94; /* Màu từ dự án React của bạn */
+    --primary-light: #e6f3ff; /* Màu từ dự án React của bạn */
+    --secondary: #ff9e1b; /* Màu từ dự án React của bạn */
+    --dark: #222f3e; /* Màu từ dự án React của bạn */
+    --text-dark: #343a40; /* Ví dụ */
+    --text-light: #ffffff; /* Màu từ dự án React của bạn */
+    --text-gray: #6c757d; /* Ví dụ */
+    --bg-light: #f8f9fa; /* Ví dụ */
+    --bg-gray: #e9ecef; /* Ví dụ */
+    --border-color: #dee2e6; /* Ví dụ */
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* Ví dụ */
+    --header-height: 80px; /* Ví dụ */
+    --header-height-scrolled: 70px; /* Ví dụ */
+    --transition: all 0.3s ease-in-out; /* Ví dụ */
+}
+
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+

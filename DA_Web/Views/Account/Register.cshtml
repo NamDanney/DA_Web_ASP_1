@@ -1,0 +1,218 @@
+﻿@{
+    ViewData["Title"] = "Đăng ký";
+    Layout = "_Layout";
+}
+
+<link rel="stylesheet" href="~/styles/Auth/account.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<div class="auth-wrapper">
+    <div class="auth-side">
+        <div class="auth-side-content">
+            <h2>Tham gia cùng chúng tôi!</h2>
+            <p>Bắt đầu hành trình khám phá Phú Yên của bạn</p>
+        </div>
+    </div>
+
+    <div class="auth-main">
+        <div class="auth-box">
+            <div class="auth-header">
+                <a asp-controller="Home" asp-action="Index" class="auth-brand">
+                    <i class="bi bi-airplane-engines"></i>
+                    <span>PHÚ YÊN</span>
+                </a>
+                <h1>Đăng ký tài khoản</h1>
+                <p>Điền thông tin dưới đây để tạo tài khoản</p>
+            </div>
+
+            <form id="registerForm" class="auth-form">
+                <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+                <div id="success-message" class="alert alert-success" style="display: none;"></div>
+
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập</label>
+                    <div class="input-group">
+                        <i class="bi bi-person"></i>
+                        <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fullName">Họ và tên</label>
+                    <div class="input-group">
+                        <i class="bi bi-person-badge"></i>
+                        <input type="text" id="fullName" name="fullName" placeholder="Nhập họ và tên" required />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-group">
+                            <i class="bi bi-envelope"></i>
+                            <input type="email" id="email" name="email" placeholder="Nhập email" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Số điện thoại</label>
+                        <div class="input-group">
+                            <i class="bi bi-phone"></i>
+                            <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <div class="input-group">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required />
+                        <button type="button" class="btn-toggle-password" data-target="password">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Xác nhận mật khẩu</label>
+                    <div class="input-group">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" required />
+                        <button type="button" class="btn-toggle-password" data-target="confirmPassword">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms" required />
+                        <span class="checkbox-label">Tôi đồng ý với <a href="#">điều khoản và điều kiện</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" id="submit-button" class="btn-submit">
+                    <span id="submit-text">Đăng ký</span>
+                    <i id="submit-icon" class="bi bi-arrow-right"></i>
+                    <span id="loading-spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                </button>
+            </form>
+
+            <p class="auth-redirect">
+                Đã có tài khoản?
+                <a asp-controller="Account" asp-action="Login"> Đăng nhập ngay</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal để chuyển hướng sang trang xác thực OTP -->
+<div class="modal-overlay" id="otp-modal" style="display: none;">
+    <div class="success-modal">
+        <div class="success-icon">
+            <i class="bi bi-envelope-check-fill"></i>
+        </div>
+        <h3>Đăng ký thành công!</h3>
+        <p>Chúng tôi đã gửi một mã OTP đến email của bạn. Vui lòng kiểm tra và xác thực tài khoản.</p>
+        <button class="btn-modal" id="modal-ok-button">OK</button>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const registerForm = document.getElementById('registerForm');
+            const submitButton = document.getElementById('submit-button');
+            const submitText = document.getElementById('submit-text');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const submitIcon = document.getElementById('submit-icon');
+            const errorMessageDiv = document.getElementById('error-message');
+            const successMessageDiv = document.getElementById('success-message');
+            const otpModal = document.getElementById('otp-modal');
+            const modalOkButton = document.getElementById('modal-ok-button');
+
+            // Toggle password visibility for both fields
+            document.querySelectorAll('.btn-toggle-password').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const passwordInput = document.getElementById(targetId);
+                    const icon = this.querySelector('i');
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    icon.className = type === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash';
+                });
+            });
+
+            registerForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const agreeTerms = document.getElementById('agreeTerms').checked;
+
+                if (password !== confirmPassword) {
+                    showError('Mật khẩu xác nhận không khớp.');
+                    return;
+                }
+                if (!agreeTerms) {
+                    showError('Bạn phải đồng ý với điều khoản và điều kiện.');
+                    return;
+                }
+
+                setLoadingState(true);
+
+                const formData = {
+                    username: document.getElementById('username').value,
+                    fullName: document.getElementById('fullName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    password: password,
+                };
+
+                try {
+                    const response = await fetch('/api/Auth/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData),
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        // Show success modal to redirect to OTP verification page
+                        otpModal.style.display = 'flex';
+                    } else {
+                        const errorText = result.message || (result.errors && result.errors.join('<br>')) || 'Đăng ký thất bại.';
+                        showError(errorText);
+                    }
+                } catch (error) {
+                    showError('Đã có lỗi xảy ra. Vui lòng thử lại.');
+                } finally {
+                    setLoadingState(false);
+                }
+            });
+
+            modalOkButton.addEventListener('click', function() {
+                // Lưu email vào sessionStorage để trang xác thực có thể lấy
+                sessionStorage.setItem('registrationEmail', document.getElementById('email').value);
+                // Chuyển hướng đến trang xác thực OTP
+                window.location.href = '/Account/VerifyEmail';
+            });
+
+            function setLoadingState(isLoading) {
+                submitButton.disabled = isLoading;
+                submitText.textContent = isLoading ? 'Đang xử lý...' : 'Đăng ký';
+                loadingSpinner.style.display = isLoading ? 'inline-block' : 'none';
+                submitIcon.style.display = isLoading ? 'none' : 'inline-block';
+            }
+
+            function showError(message) {
+                errorMessageDiv.innerHTML = message;
+                errorMessageDiv.style.display = 'block';
+                successMessageDiv.style.display = 'none';
+            }
+        });
+    </script>
+}

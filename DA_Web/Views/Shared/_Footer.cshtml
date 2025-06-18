@@ -1,0 +1,111 @@
+﻿<footer class="site-footer">
+    <div class="footer-cta">
+        <div class="container">
+            <div class="cta-container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8 col-md-7">
+                        <h3 class="cta-title">Sẵn sàng khám phá Phú Yên?</h3>
+                        <p class="cta-text">Hãy để chúng tôi giúp bạn lên kế hoạch cho chuyến du lịch đáng nhớ.</p>
+                    </div>
+                    <div class="col-lg-4 col-md-5 text-md-end">
+                        <a asp-controller="Plan" asp-action="Index" class="btn-cta">
+                            @* Giả sử bạn có PlanController *@
+                            <span>Lên kế hoạch ngay</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-main">
+        <div class="container">
+            <div class="footer-widgets">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-widget about-widget">
+                            <div class="widget-title-wrap"><h4 class="widget-title">Về chúng tôi</h4></div>
+                            <div class="about-content">
+                                <a asp-controller="Home" asp-action="Index" class="footer-logo">
+                                    <div class="logo-text-wrap">
+                                        <div class="logo-icon-wrap">
+                                            <img src="~/images/logo1.png" alt="Phú Yên Travel Logo" />
+                                        </div>
+                                        <div class="logo-text">PHÚ YÊN</div>
+                                    </div>
+                                </a>
+                                <p>Chúng tôi cam kết mang đến cho bạn những trải nghiệm du lịch đáng nhớ tại Phú Yên...</p>
+                            </div>
+                            <div class="social-links">
+                                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="Youtube"><i class="bi bi-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-6">
+                        <div class="footer-widget links-widget">
+                            <div class="widget-title-wrap"><h4 class="widget-title">Khám phá</h4></div>
+                            <ul class="footer-links">
+                                <li><a asp-controller="Locations" asp-action="Category" asp-route-category="beaches">Bãi biển</a></li>
+                                <li><a asp-controller="Locations" asp-action="Category" asp-route-category="mountains">Núi & Đồi</a></li>
+                                @* Thêm các link khác tương tự *@
+                                <li><a asp-controller="Tours" asp-action="Index">Tour du lịch</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-6">
+                        <div class="footer-widget links-widget">
+                            <div class="widget-title-wrap"><h4 class="widget-title">Liên kết</h4></div>
+                            <ul class="footer-links">
+                                <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                                <li><a asp-controller="Home" asp-action="About">Giới thiệu</a></li>
+                                @* Thêm các link khác tương tự *@
+                                <li><a asp-controller="Contact" asp-action="Index">Liên hệ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-widget newsletter-widget">
+                            <div class="widget-title-wrap"><h4 class="widget-title">Đăng ký nhận tin</h4></div>
+                            <div class="newsletter-content">
+                                <p>Nhận thông tin ưu đãi và cập nhật mới nhất về du lịch Phú Yên</p>
+                                <form class="subscribe-form">
+                                    @* Xử lý form submit sẽ cần C# *@
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" placeholder="Nhập email của bạn" required />
+                                        <button type="submit" class="btn-subscribe"><i class="bi bi-send"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="copyright">
+                        &copy; @DateTime.Now.Year <span>Phú Yên Travel</span>. Tất cả các quyền được bảo lưu.
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="footer-links-bottom">
+                        <a asp-controller="Home" asp-action="Terms">Điều khoản dịch vụ</a>
+                        <a asp-controller="Home" asp-action="Privacy">Chính sách bảo mật</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" style="display: none;">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+</footer>
+@* Bạn sẽ cần thêm JavaScript cho nút back-to-top, ví dụ trong wwwroot/js/site.js *@

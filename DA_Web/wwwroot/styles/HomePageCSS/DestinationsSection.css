@@ -1,0 +1,602 @@
+﻿.destinations-section {
+    padding: 120px 0;
+    background-color: var(--bg-gray);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative elements */
+.destinations-decor {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.decor-circle {
+    position: absolute;
+    border-radius: 50%;
+}
+
+.decor-circle-1 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0, 114, 187, 0.03) 0%, rgba(0, 114, 187, 0) 70%);
+    top: -200px;
+    right: -100px;
+}
+
+.decor-circle-2 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 158, 27, 0.03) 0%, rgba(255, 158, 27, 0) 70%);
+    bottom: -100px;
+    left: -100px;
+}
+
+.decor-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 114, 187, 0.05) 25%, rgba(0, 114, 187, 0.1) 50%, rgba(0, 114, 187, 0.05) 75%, rgba(0, 0, 0, 0) 100%);
+    top: 50%;
+    left: 0;
+}
+
+/* Header */
+.destinations-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 2;
+}
+
+.destinations-header-content {
+    max-width: 650px;
+    text-align: center;
+}
+
+.section-subtitle {
+    display: inline-block;
+    padding: 8px 22px;
+    background: linear-gradient(to right, rgba(0, 114, 187, 0.1), rgba(0, 114, 187, 0.03));
+    border-radius: 40px;
+    color: var(--primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.destinations-section .section-title {
+    font-size: 52px;
+    font-weight: 800;
+    margin-bottom: 22px;
+    color: var(--dark);
+    line-height: 1.2;
+}
+
+.highlight-text {
+    position: relative;
+    color: var(--primary);
+}
+
+    .highlight-text::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 12px;
+        background-color: rgba(0, 114, 187, 0.1);
+        bottom: 4px;
+        left: 0;
+        z-index: -1;
+        border-radius: 10px;
+    }
+
+.section-desc {
+    color: var(--text-gray);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+/* Tabs */
+.destinations-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.destinations-tabs-wrapper {
+    display: inline-flex;
+    background-color: white;
+    border-radius: 50px;
+    padding: 6px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+}
+
+.tab-button {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: 50px;
+    border: none;
+    background: transparent;
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+    .tab-button i {
+        margin-right: 8px;
+        font-size: 1.05rem;
+    }
+
+    .tab-button:hover {
+        color: var(--primary);
+    }
+
+    .tab-button.active {
+        background-color: var(--primary);
+        color: white;
+    }
+
+/* Destinations grid */
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+    position: relative;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+/* Card */
+.destination-card {
+    position: relative;
+    transition: all 0.4s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    display: flex; /* Giúp thẻ co giãn theo nội dung bên trong */
+    flex-direction: column;
+}
+
+    .destination-card:hover {
+        transform: translateY(-12px);
+    }
+
+.destination-card-inner {
+    background-color: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Đảm bảo inner card chiếm toàn bộ chiều cao của card */
+    transition: all 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+.destination-card:hover .destination-card-inner {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Featured card */
+.destination-card.featured .destination-card-inner {
+    border: 2px solid rgba(255, 158, 27, 0.2);
+}
+
+/* Card thumbnail */
+.destination-image {
+    /* ... existing styles ... */
+    height: 220px; /* Đặt chiều cao cố định cho vùng ảnh */
+    overflow: hidden; /* Ẩn phần ảnh thừa */
+    position: relative;
+}
+
+    .destination-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ảnh sẽ che phủ toàn bộ vùng, có thể bị cắt bớt */
+        transition: transform 0.5s ease;
+    }
+
+.destination-card:hover .destination-image img {
+    transform: scale(1.08);
+}
+
+.destination-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+/* Meta information */
+.destination-meta {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+    z-index: 2;
+}
+
+.destination-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stars-rating {
+    color: var(--secondary);
+    font-size: 0.9rem;
+    display: flex;
+    gap: 2px;
+}
+
+.destination-rating span {
+    color: white;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.destination-reviews {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+}
+
+    .destination-reviews i {
+        font-size: 0.9rem;
+    }
+
+/* Featured badge */
+.destination-featured {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--secondary) 0%, #e88c00 100%);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 40px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 5px 15px rgba(255, 158, 27, 0.3);
+    z-index: 2;
+}
+
+    .destination-featured i {
+        font-size: 0.95rem;
+    }
+
+/* Action buttons */
+.destination-actions {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.destination-card:hover .destination-actions {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 1.1rem;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+    .btn-circle:hover {
+        background-color: var(--primary);
+        color: white;
+        transform: translateY(-3px);
+    }
+
+.btn-favorite:hover {
+    background-color: #ff3366;
+    color: white;
+}
+
+/* Card Content */
+.destination-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Cho phép phần content co giãn để lấp đầy không gian còn lại */
+    justify-content: space-between; /* Phân bố không gian giữa các phần tử con */
+}
+
+.destination-location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+    .destination-location i {
+        color: var(--primary);
+        font-size: 1rem;
+    }
+
+    .destination-location span {
+        color: var(--text-gray);
+        font-size: 0.95rem;
+    }
+
+.destination-title {
+    margin: 0 0 12px;
+    font-size: 1.3rem; /* Điều chỉnh kích thước tiêu đề nếu cần */
+    margin-bottom: 10px;
+}
+
+    .destination-title a {
+        color: var(--dark);
+        font-size: 1.4rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        display: block;
+    }
+
+        .destination-title a:hover {
+            color: var(--primary);
+        }
+
+.destination-desc {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Giới hạn 3 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: calc(1.5em * 3); /* Chiều cao tối thiểu cho 3 dòng (1.5em là line-height ví dụ) */
+    /* Có thể cần điều chỉnh giá trị 1.5em cho phù hợp với line-height thực tế của bạn */
+}
+
+/* Tags */
+.destination-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.destination-tag {
+    background-color: rgba(0, 114, 187, 0.07);
+    color: var(--primary);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+    .destination-tag:hover {
+        background-color: var(--primary);
+        color: white;
+    }
+
+/* Card footer */
+.destination-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* Đẩy footer xuống dưới cùng của content nếu content co giãn */
+}
+
+.btn-explore {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 0;
+    transition: all 0.3s ease;
+}
+
+    .btn-explore svg {
+        width: 18px;
+        height: 18px;
+        stroke: currentColor;
+        stroke-width: 2;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition: transform 0.3s ease;
+    }
+
+    .btn-explore:hover {
+        color: var(--dark);
+    }
+
+        .btn-explore:hover svg {
+            transform: translateX(5px);
+        }
+
+/* View all link */
+.destinations-more {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    position: relative;
+    z-index: 2;
+}
+
+.btn-view-all {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+    color: white;
+    padding: 15px 32px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(0, 114, 187, 0.25);
+    transition: all 0.3s ease;
+}
+
+    .btn-view-all:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(0, 114, 187, 0.3);
+        color: white;
+    }
+
+    .btn-view-all svg {
+        width: 20px;
+        height: 20px;
+        stroke: currentColor;
+        stroke-width: 2;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition: transform 0.3s ease;
+    }
+
+    .btn-view-all:hover svg {
+        transform: translateX(5px);
+    }
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .destinations-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
+
+    .section-title {
+        font-size: 38px;
+    }
+}
+
+@media (max-width: 991px) {
+    .destinations-section {
+        padding: 90px 0;
+    }
+
+    .destinations-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .section-title {
+        font-size: 34px;
+    }
+}
+
+@media (max-width: 767px) {
+    .destinations-section {
+        padding: 70px 0;
+    }
+
+    .destinations-grid {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+        margin: 0 auto;
+    }
+
+    .section-title {
+        font-size: 30px;
+    }
+
+    .section-desc {
+        font-size: 1rem;
+    }
+
+    .tab-button {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+    }
+
+        .tab-button i {
+            font-size: 1rem;
+        }
+}
+
+@media (max-width: 575px) {
+    .destinations-section {
+        padding: 60px 0;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+
+    .section-subtitle {
+        font-size: 0.8rem;
+        padding: 7px 18px;
+    }
+
+    .destinations-tabs-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        padding: 5px;
+    }
+
+    .tab-button {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .destination-title a {
+        font-size: 1.3rem;
+    }
+
+    .btn-view-all {
+        padding: 14px 28px;
+        font-size: 0.95rem;
+    }
+}

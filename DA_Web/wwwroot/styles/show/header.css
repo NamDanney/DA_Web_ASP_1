@@ -1,0 +1,713 @@
+﻿:root {
+    --header-height: 80px;
+    --header-height-scrolled: 70px;
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --primary-light: #dbeafe;
+    --secondary: #f59e0b;
+    --text-light: #ffffff;
+    --text-dark: #1f2937;
+    --text-gray: #6b7280;
+    --bg-light: #ffffff;
+    --bg-gray: #f3f4f6;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Header Base */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background: var(--bg-light);
+    z-index: 1000;
+    transition: var(--transition);
+}
+
+.site-header {
+    padding-top: 15px;
+    padding-bottom: 20px;
+    background: #fff;
+}
+
+
+.header-scrolled {
+    height: var(--header-height-scrolled);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Thêm padding-top cho main content để tránh bị header đè */
+.main-content {
+    padding-top: var(--header-height); /* Thêm dòng này */
+    min-height: calc(100vh - var(--header-height));
+}
+
+/* HomePage styles */
+.hero-section {
+    margin-top: calc(-1 * var(--header-height)); /* Bù trừ padding-top của main-content */
+    min-height: 100vh;
+    position: relative;
+}
+
+.navbar {
+    height: 100%;
+    padding: 0;
+}
+
+.container {
+    height: 100%;
+    max-width: 1400px;
+    padding: 0 2rem;
+}
+
+/* Logo */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 1rem;
+}
+
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: var(--transition);
+}
+
+.logo-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+    .logo-icon i {
+        color: var(--text-light);
+        font-size: 1.5rem;
+        transition: var(--transition);
+    }
+
+/* Thêm CSS cho ảnh logo trong header */
+.navbar-brand .logo-icon-wrap img {
+    height: 50px; /* Chiều cao mới cho logo */
+    width: auto; /* Giữ tỷ lệ khung hình */
+    display: block; /* Đảm bảo hiển thị đúng cách */
+}
+
+/* CSS cho chữ "PHÚ YÊN" trong header */
+.navbar-brand .logo-text-wrap .logo-text {
+    font-size: 1.6rem; /* Tăng kích thước chữ "PHÚ YÊN" */
+    font-weight: 700; /* Có thể điều chỉnh độ đậm */
+    color: var(--text-dark); /* Hoặc màu bạn muốn cho chữ ở header */
+    line-height: 1.2;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+}
+
+.brand-tagline {
+    font-size: 0.8rem;
+    color: var(--text-gray);
+}
+
+/* Navigation */
+.navbar-nav {
+    margin-left: 3rem;
+    gap: 0.5rem;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--text-dark);
+    font-weight: 500;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+    .nav-link i {
+        font-size: 1.1rem;
+        transition: var(--transition);
+    }
+
+    .nav-link:hover {
+        color: var(--primary);
+        background: var(--primary-light);
+        transform: translateY(-1px);
+    }
+
+        .nav-link:hover i {
+            transform: translateY(-2px);
+        }
+
+/* Actions */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Khoảng cách giữa các item trong nav-actions */
+}
+
+.search-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: var(--bg-gray);
+    border-radius: 50%;
+    color: var(--text-dark);
+    transition: var(--transition);
+}
+
+    .search-btn:hover {
+        background: var(--primary);
+        color: var(--text-light);
+        transform: scale(1.05);
+    }
+
+/* User Menu */
+.user-menu {
+    position: relative;
+}
+
+.user-menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    color: var(--text-light);
+    border: none;
+    border-radius: 24px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+    .user-menu-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    /* Style cho user menu button khi là admin */
+    .user-menu-btn.admin-role {
+        background: var(--primary); /* Sử dụng màu chủ đạo */
+        border: none;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .user-menu-btn.admin-role:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+/* Style cho badge admin */
+.admin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #fff;
+    margin-left: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+    .admin-badge i {
+        font-size: 0.7rem;
+    }
+
+/* Style cho dropdown menu item admin */
+.dropdown-menu .dropdown-item.text-primary {
+    color: var(--primary) !important;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+    .dropdown-menu .dropdown-item.text-primary:hover {
+        background: rgba(37, 99, 235, 0.08);
+        transform: none;
+    }
+
+    .dropdown-menu .dropdown-item.text-primary i {
+        color: var(--primary);
+        margin-right: 8px;
+    }
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 220px;
+    padding: 0.5rem;
+    background: var(--bg-light);
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: var(--transition);
+}
+
+.user-menu:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    color: var(--text-dark);
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+    .dropdown-item:hover {
+        background: var(--primary-light);
+        color: var(--primary);
+        transform: translateX(5px);
+    }
+
+.dropdown-divider {
+    margin: 0.5rem 0;
+    border-color: var(--bg-gray);
+}
+
+/* Login Button */
+.login-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    color: var(--text-light);
+    border: none;
+    border-radius: 24px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+    .login-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        color: var(--text-light);
+    }
+
+/* Mobile Toggle */
+.navbar-toggler {
+    display: none;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+    .navbar-toggler span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--text-dark);
+        margin: 5px auto;
+        transition: var(--transition);
+    }
+
+/* Responsive Navigation */
+@media (max-width: 991.98px) {
+    .navbar-toggler {
+        display: block;
+        width: 40px;
+        height: 40px;
+        position: relative;
+        padding: 0;
+        border: none;
+        background: transparent;
+        z-index: 1050;
+    }
+
+        .navbar-toggler span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-dark);
+            margin: 5px auto;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .navbar-toggler.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar-toggler.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+    .navbar-collapse {
+        position: fixed;
+        top: 0;
+        right: -300px; /* Menu sẽ ẩn bên phải */
+        width: 300px;
+        height: 100vh;
+        padding: 80px 20px 20px;
+        background: var(--bg-light);
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        z-index: 1040;
+        overflow-y: auto;
+    }
+
+        .navbar-collapse.show {
+            right: 0; /* Menu sẽ hiện ra khi active */
+        }
+
+    .navbar-nav {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+
+    .nav-link {
+        padding: 12px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-actions {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .brand-tagline {
+        display: none;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 1030;
+    }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+}
+
+@media (max-width: 767.98px) {
+    .navbar-brand .brand-text {
+        display: none;
+    }
+
+    .nav-actions {
+        gap: 8px;
+    }
+
+    .search-btn,
+    .user-menu-btn,
+    .login-btn {
+        padding: 8px;
+    }
+
+        .user-menu-btn span,
+        .login-btn span {
+            display: none;
+        }
+}
+
+@media (max-width: 575.98px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .logo-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .brand-name {
+        font-size: 1.25rem;
+    }
+
+    .user-menu-btn span,
+    .login-btn span {
+        display: none;
+    }
+
+    .user-menu-btn,
+    .login-btn {
+        padding: 8px;
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .user-menu-btn i,
+        .login-btn i {
+            margin: 0;
+        }
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Animation cho admin badge */
+@keyframes glowing {
+    0% {
+        box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+    }
+
+    100% {
+        box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .user-menu-btn.admin-role {
+        padding: 8px 12px;
+    }
+
+    .admin-badge {
+        padding: 2px 6px;
+        font-size: 0.7rem;
+    }
+}
+
+/* Thêm CSS cho avatar trong header */
+.user-avatar {
+    width: 36px; /* Kích thước avatar */
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px; /* Khoảng cách giữa avatar và tên */
+    flex-shrink: 0; /* Không cho avatar co lại */
+    border: 1px solid rgba(0,0,0,0.1); /* Viền nhẹ cho avatar */
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Đảm bảo ảnh vừa vặn và không bị méo */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 6px 10px; /* Điều chỉnh padding cho vừa vặn */
+    border-radius: 50px; /* Bo tròn tạo hình viên thuốc */
+    transition: background-color 0.2s ease-in-out;
+    min-width: 0; /* Cho phép co giãn */
+}
+
+    .user-info:hover {
+        background-color: rgba(0, 0, 0, 0.05); /* Hiệu ứng hover nhẹ nhàng */
+    }
+
+/* CSS cho avatar trong header - Cập nhật hoặc thay thế */
+.user-avatar {
+    width: 36px; /* Kích thước avatar */
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px; /* Khoảng cách giữa avatar và tên */
+    flex-shrink: 0; /* Không cho avatar co lại */
+    border: 1px solid rgba(0,0,0,0.1); /* Viền nhẹ cho avatar */
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Đảm bảo ảnh vừa vặn và không bị méo */
+}
+
+.user-name {
+    font-weight: 500;
+    font-size: 0.9rem; /* Kích thước font cho tên */
+    color: var(--text-dark, #212529); /* Màu chữ cho tên */
+    margin-right: 6px; /* Khoảng cách giữa tên và icon chevron */
+    white-space: nowrap; /* Không xuống dòng */
+    overflow: hidden; /* Ẩn phần thừa */
+    text-overflow: ellipsis; /* Hiển thị ... nếu tên quá dài */
+    max-width: 120px; /* Giới hạn chiều rộng của tên */
+}
+
+.user-info .bi-chevron-up,
+.user-info .bi-chevron-down {
+    font-size: 0.8rem; /* Kích thước icon chevron */
+    color: var(--text-gray, #6c757d);
+    transition: transform 0.3s ease;
+}
+
+/* Dropdown Menu - Cập nhật hoặc thay thế */
+.user-dropdown .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px); /* Vị trí của dropdown, cách user-info 10px */
+    right: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Đổ bóng hiện đại hơn */
+    min-width: 230px; /* Độ rộng tối thiểu của dropdown */
+    padding: 8px 0;
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.95);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+    .user-dropdown .dropdown-menu.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+    }
+
+    .user-dropdown .dropdown-menu ul { /* Nếu bạn vẫn dùng ul bên trong */
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .user-dropdown .dropdown-menu li .dropdown-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px; /* Padding cho các mục trong dropdown */
+        font-size: 0.9rem;
+        color: #333;
+        text-decoration: none;
+        transition: background-color 0.2s ease, color 0.2s ease;
+        white-space: nowrap;
+    }
+
+        .user-dropdown .dropdown-menu li .dropdown-item:hover {
+            background-color: #f8f9fa; /* Màu nền khi hover */
+            color: var(--primary, #007bff); /* Màu chữ khi hover */
+        }
+
+        .user-dropdown .dropdown-menu li .dropdown-item i {
+            margin-right: 12px; /* Khoảng cách giữa icon và text */
+            font-size: 1.1rem;
+            width: 20px; /* Đảm bảo icon thẳng hàng */
+            text-align: center;
+            color: #6c757d; /* Màu icon mặc định */
+            transition: color 0.2s ease;
+        }
+
+        .user-dropdown .dropdown-menu li .dropdown-item:hover i {
+            color: var(--primary, #007bff); /* Màu icon khi hover */
+        }
+
+    .user-dropdown .dropdown-menu .dropdown-divider {
+        height: 1px;
+        margin: 8px 0;
+        overflow: hidden;
+        background-color: #e9ecef; /* Màu đường kẻ phân cách */
+        border: 0;
+    }
+
+    /* Style riêng cho các mục đặc biệt nếu cần */
+    .user-dropdown .dropdown-menu li .dropdown-item.text-primary {
+        color: var(--primary, #007bff) !important;
+    }
+
+        .user-dropdown .dropdown-menu li .dropdown-item.text-primary:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .user-dropdown .dropdown-menu li .dropdown-item.text-primary i {
+            color: var(--primary, #007bff);
+        }
+
+    .user-dropdown .dropdown-menu li .dropdown-item.text-danger {
+        color: var(--danger, #dc3545) !important;
+    }
+
+        .user-dropdown .dropdown-menu li .dropdown-item.text-danger:hover {
+            background-color: rgba(220, 53, 69, 0.05);
+            color: #a71d2a !important;
+        }
+
+        .user-dropdown .dropdown-menu li .dropdown-item.text-danger i {
+            color: var(--danger, #dc3545);
+        }
+
+        .user-dropdown .dropdown-menu li .dropdown-item.text-danger:hover i {
+            color: #a71d2a;
+        }

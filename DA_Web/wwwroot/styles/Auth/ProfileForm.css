@@ -1,0 +1,152 @@
+﻿/* DA_Web/wwwroot/css/Profile/Profile.css (Phiên bản cải tiến) */
+
+.profile-form-wrapper {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.profile-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.header-content h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.header-subtitle {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+/* --- CSS CHO CÁC NÚT BẤM (Cải tiến) --- */
+.profile-actions {
+    display: flex;
+    align-items: center;
+}
+
+    /* Style chung cho TẤT CẢ các nút (cả <a> và <button>) để đảm bảo đồng nhất */
+    .profile-actions a,
+    .profile-actions button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid #d1d5db; /* Một đường viền xám mặc định */
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        cursor: pointer;
+        text-decoration: none; /* Quan trọng cho thẻ <a> */
+        white-space: nowrap; /* Tránh nút bị xuống dòng khi co màn hình */
+    }
+
+/* Style cho các nhóm nút */
+#view-actions, #save-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Style cụ thể cho từng loại nút, ghi đè lên style chung */
+
+/* Nút "Đổi mật khẩu" & "Hủy" (nền trắng) */
+.profile-actions .btn-secondary {
+    background-color: #ffffff;
+    color: #374151;
+}
+
+    .profile-actions .btn-secondary:hover {
+        background-color: #f9fafb;
+    }
+
+/* Nút "Chỉnh sửa" (xám nhạt) */
+.profile-actions .btn-edit {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+    .profile-actions .btn-edit:hover {
+        background-color: #e5e7eb;
+    }
+
+/* Nút "Lưu thay đổi" (xanh) */
+.profile-actions .btn-primary {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+    .profile-actions .btn-primary:hover {
+        background-color: #1d4ed8;
+    }
+
+
+/* --- CSS CHO PHẦN THÂN TRANG --- */
+.avatar-upload-section {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.avatar-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatar-upload-actions label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.25rem;
+}
+
+.avatar-upload-actions p {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.profile-form-group {
+    margin-bottom: 1.5rem;
+}
+
+    .profile-form-group label {
+        display: block;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 0.5rem;
+    }
+
+        .profile-form-group label i {
+            margin-right: 0.5rem;
+            color: #6b7280;
+        }
+
+.profile-info-field,
+.view-mode {
+    padding: 0.75rem 1rem;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    min-height: calc(1.5em + 1.5rem + 2px); /* Giữ chiều cao bằng input */
+    display: flex;
+    align-items: center;
+}
+
+.form-control.edit-mode {
+    padding: 0.75rem 1rem;
+}

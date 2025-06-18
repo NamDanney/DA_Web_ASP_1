@@ -1,0 +1,89 @@
+﻿@using System.Security.Claims
+
+<header class="site-header">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <div class="logo-wrapper">
+                    <div class="logo-icon-wrap">
+                        <img src="~/images/logo1.png" alt="Phú Yên Travel Logo" style="height: 50px;" />
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-name">PHÚ YÊN</span>
+                    </div>
+                </div>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <!-- Các mục menu của bạn -->
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index"><i class="bi bi-house-door"></i><span>Trang chủ</span></a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Locations" asp-action="Index"><i class="bi bi-geo-alt"></i><span>Điểm đến</span></a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Plan" asp-action="Index"><i class="bi bi-calendar3"></i><span>Lập kế hoạch</span></a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About"><i class="bi bi-info-circle"></i><span>Giới thiệu</span></a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Contact" asp-action="Index"><i class="bi bi-chat-dots"></i><span>Liên hệ</span></a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button class="search-btn" aria-label="Search"><i class="bi bi-search"></i></button>
+
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <!-- TRẠNG THÁI ĐÃ ĐĂNG NHẬP (BẢN HOÀN CHỈNH CUỐI CÙNG) -->
+                        <div class="dropdown user-menu">
+                            <div class="user-info" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                                <div class="user-avatar">
+                                    @* 
+                                    SỬA LỖI TẠI ĐÂY: Thêm style để quy định kích thước cho ảnh.
+                                    Đây là nguyên nhân chính khiến ảnh không hiển thị.
+                                    *@
+                                    <img id="header-user-avatar"
+                                         src="@(User.FindFirstValue("Avatar") ?? "/images/default-avatar.png")"
+                                         alt="User Avatar"
+                                         class="rounded-circle"
+                                         style="width: 35px; height: 35px; object-fit: cover;" />
+                                </div>
+                                <span class="user-name">
+                                    @(User.FindFirstValue(ClaimTypes.GivenName) ?? User.Identity.Name)
+                                </span>
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Admin" asp-action="Index">
+                                            <i class="bi bi-gear-wide-connected"></i> Trang quản trị
+                                        </a>
+                                    </li>
+                                }
+                                <li><a class="dropdown-item" asp-controller="Profile" asp-action="Index"><i class="bi bi-person"></i> Tài khoản</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form asp-controller="Account" asp-action="Logout" method="post">
+                                        <button type="submit" class="dropdown-item text-danger" style="border:none; background:none; width:100%; text-align:left;">
+                                            <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- TRẠNG THÁI CHƯA ĐĂNG NHẬP -->
+                        <a asp-controller="Account" asp-action="Login" class="btn login-btn">
+                            <i class="bi bi-person-circle"></i><span>Đăng nhập</span>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

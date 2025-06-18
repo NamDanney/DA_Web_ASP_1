@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Sử dụng layout chung của trang web
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h1 class="card-title h3">Admin Dashboard</h1>
+        </div>
+        <div class="card-body">
+            <p class="lead">Chào mừng bạn đến trang quản trị.</p>
+            <p>Tại đây, bạn có thể quản lý các khía cạnh khác nhau của trang web.</p>
+
+            <div class="mt-4">
+                <h4>Chức năng quản lý</h4>
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-users-cog me-2"></i>Quản lý Người dùng
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-map-marked-alt me-2"></i>Quản lý Địa điểm
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-route me-2"></i>Quản lý Tour
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Thêm một chút style để trang nhìn đẹp hơn *@
+@section Scripts {
+    <style>
+        .card-header {
+            border-bottom: 0;
+        }
+        .list-group-item-action:hover {
+            background-color: #f8f9fa;
+        }
+        .fa-fw {
+            width: 1.28571429em;
+            text-align: center;
+        }
+    </style>
+@* Chúng ta cần Font Awesome cho các icon, bạn có thể đã có nó trong _Layout.cshtml *@
+}

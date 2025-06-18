@@ -1,0 +1,95 @@
+﻿@model IEnumerable<DA_Web.Models.Location>
+@using DA_Web.Models.Enums
+
+<section class="destinations-section">
+    <div class="destinations-decor">
+        <div class="decor-circle decor-circle-1"></div>
+        <div class="decor-circle decor-circle-2"></div>
+        <div class="decor-line"></div>
+    </div>
+
+    <div class="container">
+        <div class="destinations-header">
+            <div class="destinations-header-content">
+                <div class="section-subtitle">Khám phá Phú Yên</div>
+                <h2 class="section-title">Điểm Đến <span class="highlight-text">Nổi Bật</span></h2>
+                <p class="section-desc">
+                    Khám phá những địa điểm du lịch tuyệt vời nhất tại Phú Yên, từ bãi biển hoang sơ đến các di tích lịch sử văn hóa đặc sắc.
+                </p>
+            </div>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="destinations-grid">
+                @foreach (var location in Model)
+                {
+                    var introImage = location.LocationImages.FirstOrDefault(img => img.ImageType == LocationImageType.introduction);
+                    var defaultImage = location.LocationImages.FirstOrDefault(img => img.ImageType == LocationImageType.@default);
+                    var firstImage = location.LocationImages.FirstOrDefault();
+
+                    var imageUrl = (introImage?.ImageUrl ?? defaultImage?.ImageUrl ?? firstImage?.ImageUrl)
+                    ?? "https://via.placeholder.com/400x300?text=No+Image";
+
+                    <div class="destination-card">
+                        <div class="destination-card-inner">
+                            <div class="destination-image">
+                                <img src="@imageUrl" alt="@location.Name" />
+
+                                <div class="destination-actions">
+                                    <a asp-controller="Locations" asp-action="Detail" asp-route-id="@location.Id" class="btn-circle">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </a>
+                                    <button class="btn-circle btn-favorite">
+                                        <i class="bi bi-heart"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="destination-content">
+                                <div class="destination-location">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>@location.Type</span>
+                                </div>
+
+                                <h3 class="destination-title">
+                                    <a asp-controller="Locations" asp-action="Detail" asp-route-id="@location.Id">@location.Name</a>
+                                </h3>
+
+                                <p class="destination-desc">
+                                    @(location.Description != null && location.Description.Length > 100
+                                        ? location.Description.Substring(0, 100) + "..."
+                                        : location.Description ?? "Chưa có mô tả.")
+                                </p>
+
+                                <div class="destination-footer">
+                                    <a asp-controller="Locations" asp-action="Detail" asp-route-id="@location.Id" class="btn-explore">
+                                        <span>Khám phá ngay</span>
+                                        <svg viewBox="0 0 24" width="24" height="24">
+                                            <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center p-5">
+                <p>Không có điểm đến nào để hiển thị.</p>
+            </div>
+        }
+
+        <div class="destinations-more">
+            <a asp-controller="Locations" asp-action="Index" class="btn-view-all">
+                <span>Xem tất cả điểm đến</span>
+                <svg viewBox="0 0 24" width="24" height="24">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>

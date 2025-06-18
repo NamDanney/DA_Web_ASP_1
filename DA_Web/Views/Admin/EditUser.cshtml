@@ -1,0 +1,43 @@
+﻿    @using DA_Web.Models.Enums
+    @model DA_Web.Models.User
+@{
+    ViewData["Title"] = "Chỉnh sửa người dùng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h2 class="card-title">Chỉnh sửa: @Model.FullName</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="EditUser" asp-route-id="@Model.Id" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label">ID Người dùng</label>
+                <input type="text" class="form-control" value="@Model.Id" readonly />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Tên đăng nhập</label>
+                <input type="text" class="form-control" value="@Model.Username" readonly />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" value="@Model.Email" readonly />
+            </div>
+
+            <hr />
+
+            <div class="mb-3">
+                <label asp-for="Role" class="form-label"><strong>Vai trò</strong></label>
+                <select asp-for="Role" asp-items="Html.GetEnumSelectList<RoleType>()" class="form-select"></select>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                <a asp-action="UserManagement" class="btn btn-secondary">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>

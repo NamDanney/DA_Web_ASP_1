@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Panel</title>
+
+    <!-- Using existing CSS from the main project -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .admin-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 260px;
+            background-color: #212529; /* Dark background */
+            color: #fff;
+            position: fixed;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 1.2rem 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-bottom: 1px solid #495057;
+        }
+
+            .sidebar-header a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+        .admin-nav {
+            padding: 1rem 0;
+            flex-grow: 1;
+        }
+
+            .admin-nav .nav-link {
+                color: #adb5bd;
+                padding: 0.75rem 1.5rem;
+                display: flex;
+                align-items: center;
+                transition: background-color 0.2s, color 0.2s;
+            }
+
+                .admin-nav .nav-link i {
+                    margin-right: 12px;
+                    font-size: 1.2rem;
+                    width: 20px;
+                    text-align: center;
+                }
+
+                .admin-nav .nav-link:hover, .admin-nav .nav-link.active {
+                    background-color: #495057;
+                    color: #fff;
+                }
+
+        .sidebar-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #495057;
+        }
+
+        .admin-main-content {
+            margin-left: 260px; /* Same as sidebar width */
+            flex-grow: 1;
+            padding: 2rem;
+            width: calc(100% - 260px);
+        }
+
+        .top-bar {
+            background-color: #fff;
+            padding: 0.75rem 2rem;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <a asp-controller="Admin" asp-action="Index">Admin Panel</a>
+            </div>
+            <ul class="nav flex-column admin-nav">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Admin" asp-action="Index">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Admin" asp-action="UserManagement">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Quản lý người dùng</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <span>Quản lý địa điểm</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-briefcase-fill"></i>
+                        <span>Quản lý Tour</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary w-100">
+                    <i class="bi bi-box-arrow-left me-2"></i>Về trang chính
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main-content">
+            <div class="container-fluid mt-4">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

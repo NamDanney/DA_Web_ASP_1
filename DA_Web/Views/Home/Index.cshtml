@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Trang Chủ - Phú Yên Travel";
+}
+
+
+
+<main class="homepage-main">
+    @* 1. Hero Section *@
+    <partial name="_HeroSection" />
+
+    @* 2. About Section *@
+    <partial name="_AboutSection" />
+
+    @* 3. Destinations Section - Chúng ta sẽ truyền dữ liệu từ ViewBag vào đây *@
+    <partial name="_DestinationsSection" model="ViewBag.FeaturedLocations" />
+
+    @* 4. Travel Plan Section *@
+    <partial name="_TravelPlanSection" />
+
+    @* 5. Testimonials Section *@
+    <partial name="_TestimonialsSection" />
+</main>

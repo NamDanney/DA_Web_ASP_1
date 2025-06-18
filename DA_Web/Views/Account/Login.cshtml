@@ -1,0 +1,98 @@
+﻿@model DA_Web.DTOs.Auth.LoginDto
+@{
+    ViewData["Title"] = "Đăng nhập";
+    // 1. Giữ nguyên Layout như bạn yêu cầu
+    Layout = "_Layout";
+}
+
+@* 2. Link đến file CSS riêng của bạn, không dùng style inline *@
+<link rel="stylesheet" href="~/styles/Auth/account.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+@* 3. Giao diện được tái tạo từ LoginForm.js *@
+<div class="auth-wrapper">
+    <div class="auth-side">
+        <div class="auth-side-content">
+            <h2>Chào mừng trở lại!</h2>
+            <p>Khám phá vẻ đẹp của Phú Yên cùng chúng tôi</p>
+        </div>
+    </div>
+
+    <div class="auth-main">
+        <div class="auth-box">
+            <div class="auth-header">
+                <a asp-controller="Home" asp-action="Index" class="auth-brand">
+                    <i class="bi bi-airplane-engines"></i>
+                    <span>PHÚ YÊN</span>
+                </a>
+                <h1>Đăng nhập</h1>
+                <p>Vui lòng đăng nhập để tiếp tục</p>
+            </div>
+
+            @* 4. Sử dụng form của ASP.NET Core để đảm bảo logic tạo cookie chạy đúng *@
+            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="auth-form">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                <div class="form-group">
+                    <label asp-for="Username">Tên đăng nhập</label>
+                    <div class="input-group">
+                        <i class="bi bi-person"></i>
+                        <input asp-for="Username" class="form-control" placeholder="Nhập tên đăng nhập" required autocomplete="username" />
+                    </div>
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password">Mật khẩu</label>
+                    <div class="input-group">
+                        <i class="bi bi-lock"></i>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Nhập mật khẩu" id="passwordInput" required autocomplete="current-password" />
+                        <button type="button" class="btn-toggle-password" onclick="togglePasswordVisibility()">
+                            <i class="bi bi-eye" id="passwordIcon"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-options">
+                    <a asp-action="ForgotPassword" class="forgot-link">Quên mật khẩu?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-submit">
+                    Đăng nhập <i class="bi bi-arrow-right"></i>
+                </button>
+            </form>
+
+            <p class="auth-redirect">
+                Chưa có tài khoản?
+                <a asp-controller="Account" asp-action="Register"> Đăng ký ngay</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+@*
+    5. Đặt tất cả script vào trong @section Scripts để giải quyết lỗi "jQuery is not defined"
+*@
+@section Scripts {
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('passwordInput');
+            const passwordIcon = document.getElementById('passwordIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.className = 'bi bi-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.className = 'bi bi-eye';
+            }
+        }
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

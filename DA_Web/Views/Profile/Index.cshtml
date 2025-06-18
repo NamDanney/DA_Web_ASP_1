@@ -1,0 +1,225 @@
+﻿@model DA_Web.DTOs.Common.UserInfoDto
+@{
+    ViewData["Title"] = "Thông tin cá nhân";
+    Layout = "_Layout";
+}
+
+@* Nhúng CSS trực tiếp để đảm bảo hoạt động *@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .profile-form-wrapper {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 2.5rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .header-content h1 {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #1f2937;
+    }
+
+    .header-subtitle {
+        color: #6b7280;
+        font-size: 0.875rem;
+    }
+
+    .profile-actions {
+        display: flex;
+        align-items: center;
+    }
+
+    #view-actions, #save-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .profile-actions a, .profile-actions button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .profile-actions .btn-secondary {
+        background-color: #ffffff;
+        color: #374151;
+    }
+
+        .profile-actions .btn-secondary:hover {
+            background-color: #f9fafb;
+        }
+
+    .profile-actions .btn-primary {
+        background-color: #2563eb;
+        color: white;
+        border-color: #2563eb;
+    }
+
+        .profile-actions .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+    .avatar-upload-section {
+        padding-bottom: 2rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .avatar-preview {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .avatar-upload-actions .main-label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.25rem;
+    }
+
+    .avatar-upload-actions p {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0;
+    }
+
+    .profile-form-group {
+        margin-bottom: 1.5rem;
+    }
+
+        .profile-form-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+    .profile-info-field, .view-mode {
+        padding: 0.75rem 1rem;
+        background-color: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        min-height: calc(1.5em + 1.5rem + 2px);
+        display: flex;
+        align-items: center;
+    }
+
+    .form-control.edit-mode {
+        padding: 0.75rem 1rem;
+    }
+
+    .btn-change-avatar {
+        margin-top: 0.5rem;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="profile-form-wrapper">
+        @if (Model != null)
+        {
+            <form asp-action="Index" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                @* Các trường ẩn khác không cần thiết nếu không sửa *@
+
+                <div class="profile-header">
+                    <div class="header-content"><h1>Thông tin cá nhân</h1><p class="header-subtitle">Quản lý thông tin cá nhân của bạn.</p></div>
+                    <div class="profile-actions">
+                        <div id="view-actions"><a asp-action="ChangePassword" class="btn btn-secondary"><i class="bi bi-key"></i> Đổi mật khẩu</a><button type="button" id="edit-button" class="btn btn-primary btn-edit">Chỉnh sửa</button></div>
+                        <div id="save-actions" style="display: none;"><button type="button" id="cancel-button" class="btn btn-secondary">Hủy</button><button type="submit" class="btn btn-primary">Lưu thay đổi</button></div>
+                    </div>
+                </div>
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success mt-3">@TempData["SuccessMessage"]</div>
+                }
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger mt-3">@TempData["ErrorMessage"]</div>
+                }
+
+                <div class="avatar-upload-section">
+                    <img src="@Model.Avatar" alt="Avatar" class="avatar-preview" id="avatarPreview" />
+                    <div class="avatar-upload-actions">
+                        <label class="main-label">Ảnh đại diện</label>
+                        <p class="view-mode">Thông tin ảnh đại diện của bạn.</p>
+                        <div class="edit-mode" style="display: none;">
+                            <p>Sử dụng ảnh vuông để có kết quả tốt nhất.</p>
+                            <input type="file" name="avatarFile" id="avatarFile" class="form-control" accept="image/*" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-form">
+                    <div class="profile-form-group"><label><i class="bi bi-person"></i> Tên đăng nhập</label><div class="profile-info-field">@Model.Username</div></div>
+                    <div class="profile-form-group"><label><i class="bi bi-envelope"></i> Email</label><div class="profile-info-field">@Model.Email</div></div>
+                    <div class="profile-form-group"><label asp-for="FullName"><i class="bi bi-person-vcard"></i> Họ và tên</label><div class="view-mode profile-info-field">@Model.FullName</div><input asp-for="FullName" class="form-control edit-mode" style="display: none;" /></div>
+                    <div class="profile-form-group"><label asp-for="Phone"><i class="bi bi-telephone"></i> Số điện thoại</label><div class="view-mode profile-info-field">@(string.IsNullOrEmpty(Model.Phone) ? "Chưa cập nhật" : Model.Phone)</div><input asp-for="Phone" class="form-control edit-mode" style="display: none;" /></div>
+                </div>
+            </form>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const viewActions = document.getElementById('view-actions'), saveActions = document.getElementById('save-actions');
+            const editButton = document.getElementById('edit-button'), cancelButton = document.getElementById('cancel-button');
+            const viewModeElements = document.querySelectorAll('.view-mode'), editModeElements = document.querySelectorAll('.edit-mode');
+            const avatarFileInput = document.getElementById('avatarFile'), avatarPreview = document.getElementById('avatarPreview');
+
+            function toggleEditMode(isEditing) {
+                viewActions.style.display = isEditing ? 'none' : 'flex';
+                saveActions.style.display = isEditing ? 'flex' : 'none';
+                viewModeElements.forEach(el => el.style.display = isEditing ? 'none' : 'block');
+                editModeElements.forEach(el => el.style.display = isEditing ? 'block' : 'none');
+            }
+
+            editButton.addEventListener('click', () => toggleEditMode(true));
+            cancelButton.addEventListener('click', () => {
+                 // Tải lại trang để hủy mọi thay đổi chưa lưu, cách đơn giản nhất
+                location.reload();
+            });
+
+            // Xem trước ảnh khi người dùng chọn file
+            avatarFileInput.addEventListener('change', function () {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => { avatarPreview.src = e.target.result; };
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        });
+    </script>
+}

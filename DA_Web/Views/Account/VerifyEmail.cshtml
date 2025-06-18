@@ -1,0 +1,169 @@
+﻿@{
+    ViewData["Title"] = "Xác thực tài khoản";
+    Layout = "_Layout";
+}
+
+<link rel="stylesheet" href="~/styles/Auth/account.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<div class="auth-wrapper">
+    <div class="auth-side">
+        <div class="auth-side-content">
+            <h2>Chỉ một bước nữa thôi!</h2>
+            <p>Xác thực tài khoản để bắt đầu hành trình của bạn.</p>
+        </div>
+    </div>
+
+    <div class="auth-main">
+        <div class="auth-box">
+            <div class="auth-header">
+                <a asp-controller="Home" asp-action="Index" class="auth-brand">
+                    <i class="bi bi-airplane-engines"></i>
+                    <span>PHÚ YÊN</span>
+                </a>
+                <h1>Xác thực tài khoản</h1>
+                <p id="instruction-text">Chúng tôi đã gửi mã OTP đến email của bạn. Vui lòng nhập mã vào ô dưới đây.</p>
+            </div>
+
+            <form id="verifyForm" class="auth-form">
+                <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+                <div id="success-message" class="alert alert-success" style="display: none;"></div>
+
+                <div class="form-group">
+                    <label for="otp">Mã OTP</label>
+                    <div class="input-group">
+                        <i class="bi bi-shield-lock"></i>
+                        <input type="text" id="otp" name="otp" placeholder="Nhập 6 chữ số" required maxlength="6" />
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-button" class="btn-submit">
+                    <span id="submit-text">Xác thực</span>
+                    <i id="submit-icon" class="bi bi-arrow-right"></i>
+                    <span id="loading-spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                </button>
+            </form>
+            <p class="auth-redirect">
+                Chưa nhận được mã?
+                <a href="#" id="resend-otp-link"> Gửi lại OTP</a>
+                <span id="resend-countdown"></span>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const verifyForm = document.getElementById('verifyForm');
+            const submitButton = document.getElementById('submit-button');
+            const submitText = document.getElementById('submit-text');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const submitIcon = document.getElementById('submit-icon');
+            const errorMessageDiv = document.getElementById('error-message');
+            const successMessageDiv = document.getElementById('success-message');
+            const instructionText = document.getElementById('instruction-text');
+            const resendLink = document.getElementById('resend-otp-link');
+            const countdownSpan = document.getElementById('resend-countdown');
+
+
+            // Lấy email đã được lưu từ trang đăng ký
+            const userEmail = sessionStorage.getItem('registrationEmail');
+            if (userEmail) {
+                instructionText.textContent = `Chúng tôi đã gửi mã OTP đến email ${userEmail}. Vui lòng nhập mã vào ô dưới đây.`;
+            } else {
+                 instructionText.textContent = 'Vui lòng nhập mã OTP đã được gửi đến email của bạn.';
+            }
+
+            verifyForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                setLoadingState(true);
+
+                const otp = document.getElementById('otp').value;
+
+                if (!userEmail) {
+                    showError("Không tìm thấy thông tin email. Vui lòng thử đăng ký lại.");
+                    setLoadingState(false);
+                    return;
+                }
+
+                const formData = {
+                    email: userEmail,
+                    otp: otp
+                };
+
+                // CHÚ Ý: Chúng ta cần tạo API endpoint này ở bước tiếp theo
+                try {
+                    const response = await fetch('/api/Auth/VerifyOtp', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData),
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        showSuccess("Xác thực thành công! Đang chuyển hướng đến trang đăng nhập...");
+                        sessionStorage.removeItem('registrationEmail'); // Xóa email sau khi thành công
+                        setTimeout(() => {
+                            window.location.href = '/Account/Login';
+                        }, 2000);
+                    } else {
+                        showError(result.message || 'Mã OTP không hợp lệ hoặc đã hết hạn.');
+                    }
+                } catch (error) {
+                    showError('Đã có lỗi xảy ra. Vui lòng thử lại.');
+                } finally {
+                    setLoadingState(false);
+                }
+            });
+
+            // Logic gửi lại OTP (sẽ hoàn thiện sau khi có API)
+            resendLink.addEventListener('click', async function(e) {
+                e.preventDefault();
+                // Tạm thời disable link
+                if(resendLink.classList.contains('disabled')) return;
+
+                // Gửi lại request...
+                showSuccess('Đã gửi lại mã OTP. Vui lòng kiểm tra email.');
+                // Bắt đầu đếm ngược
+                startCountdown(60);
+            });
+
+            function startCountdown(seconds) {
+                resendLink.classList.add('disabled');
+                let counter = seconds;
+                countdownSpan.textContent = ` (${counter}s)`;
+
+                const interval = setInterval(() => {
+                    counter--;
+                    countdownSpan.textContent = ` (${counter}s)`;
+                    if (counter <= 0) {
+                        clearInterval(interval);
+                        countdownSpan.textContent = '';
+                        resendLink.classList.remove('disabled');
+                    }
+                }, 1000);
+            }
+
+            function setLoadingState(isLoading) {
+                submitButton.disabled = isLoading;
+                submitText.textContent = isLoading ? 'Đang xử lý...' : 'Xác thực';
+                loadingSpinner.style.display = isLoading ? 'inline-block' : 'none';
+                submitIcon.style.display = isLoading ? 'none' : 'inline-block';
+            }
+
+            function showError(message) {
+                errorMessageDiv.textContent = message;
+                errorMessageDiv.style.display = 'block';
+                successMessageDiv.style.display = 'none';
+            }
+            function showSuccess(message) {
+                successMessageDiv.textContent = message;
+                successMessageDiv.style.display = 'block';
+                errorMessageDiv.style.display = 'none';
+            }
+        });
+    </script>
+}
