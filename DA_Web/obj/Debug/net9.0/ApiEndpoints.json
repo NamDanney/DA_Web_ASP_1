@@ -249,6 +249,32 @@
   },
   {
     "ContainingType": "DA_Web.Controllers.AuthController",
+    "Method": "ResendOtp",
+    "RelativePath": "api/Auth/ResendOtp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resendDto",
+        "Type": "DA_Web.DTOs.Auth.ResendOtpDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DA_Web.DTOs.Common.ApiResponse\u00601[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DA_Web.Controllers.AuthController",
     "Method": "ResetPassword",
     "RelativePath": "api/Auth/ResetPassword",
     "HttpMethod": "POST",

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "gl3o3KTsyiiZDK6aFDies/G0PHvcjn1z8gJK4gNPAcY=",
+  "Hash": "YE7WDlXyF9IqmYboHlo459cj69UuZAwTiI50oVLVmpY=",
   "Source": "DA_Web",
   "BasePath": "_content/DA_Web",
   "Mode": "Default",
@@ -3417,27 +3417,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\styles\\show\\header.css"
-    },
-    {
-      "Identity": "C:\\Users\\admin\\source\\repos\\DA_Web_ASP\\DA_Web\\wwwroot\\uploads\\avatars\\2d155c73-603e-4a5b-aa31-9cdabd52f240_lamal.jpg",
-      "SourceId": "DA_Web",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\admin\\source\\repos\\DA_Web_ASP\\DA_Web\\wwwroot\\",
-      "BasePath": "_content/DA_Web",
-      "RelativePath": "uploads/avatars/2d155c73-603e-4a5b-aa31-9cdabd52f240_lamal#[.{fingerprint}]?.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "esm1kk70zz",
-      "Integrity": "YgIhKy9u/Tie55cP/8wfnaHpkTZQFCEyWzc0KyVLTbc=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\uploads\\avatars\\2d155c73-603e-4a5b-aa31-9cdabd52f240_lamal.jpg"
     },
     {
       "Identity": "C:\\Users\\admin\\source\\repos\\DA_Web_ASP\\DA_Web\\wwwroot\\uploads\\avatars\\user_1_1747796056619.jpg",
@@ -32237,88 +32216,6 @@
         {
           "Name": "integrity",
           "Value": "sha256-AlWLmmdH3qJrAP7qvhAbi8Q79JnTqilY8OUAu/LguH4="
-        }
-      ]
-    },
-    {
-      "Route": "uploads/avatars/2d155c73-603e-4a5b-aa31-9cdabd52f240_lamal.esm1kk70zz.jpg",
-      "AssetFile": "C:\\Users\\admin\\source\\repos\\DA_Web_ASP\\DA_Web\\wwwroot\\uploads\\avatars\\2d155c73-603e-4a5b-aa31-9cdabd52f240_lamal.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "39268"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"YgIhKy9u/Tie55cP/8wfnaHpkTZQFCEyWzc0KyVLTbc=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 17 Jun 2025 19:13:06 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "esm1kk70zz"
-        },
-        {
-          "Name": "label",
-          "Value": "uploads/avatars/2d155c73-603e-4a5b-aa31-9cdabd52f240_lamal.jpg"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-YgIhKy9u/Tie55cP/8wfnaHpkTZQFCEyWzc0KyVLTbc="
-        }
-      ]
-    },
-    {
-      "Route": "uploads/avatars/2d155c73-603e-4a5b-aa31-9cdabd52f240_lamal.jpg",
-      "AssetFile": "C:\\Users\\admin\\source\\repos\\DA_Web_ASP\\DA_Web\\wwwroot\\uploads\\avatars\\2d155c73-603e-4a5b-aa31-9cdabd52f240_lamal.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "39268"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"YgIhKy9u/Tie55cP/8wfnaHpkTZQFCEyWzc0KyVLTbc=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 17 Jun 2025 19:13:06 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-YgIhKy9u/Tie55cP/8wfnaHpkTZQFCEyWzc0KyVLTbc="
         }
       ]
     },

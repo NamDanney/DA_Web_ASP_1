@@ -21,6 +21,12 @@
 
     <div class="auth-main">
         <div class="auth-box">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
             <div class="auth-header">
                 <a asp-controller="Home" asp-action="Index" class="auth-brand">
                     <i class="bi bi-airplane-engines"></i>

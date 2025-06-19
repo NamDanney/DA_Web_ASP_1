@@ -1584,24 +1584,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\styles\show\header.css'))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\avatars\2d155c73-603e-4a5b-aa31-9cdabd52f240_lamal.jpg'))">
-      <SourceType>Package</SourceType>
-      <SourceId>DA_Web</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/DA_Web</BasePath>
-      <RelativePath>uploads/avatars/2d155c73-603e-4a5b-aa31-9cdabd52f240_lamal.jpg</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>esm1kk70zz</Fingerprint>
-      <Integrity>YgIhKy9u/Tie55cP/8wfnaHpkTZQFCEyWzc0KyVLTbc=</Integrity>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\avatars\2d155c73-603e-4a5b-aa31-9cdabd52f240_lamal.jpg'))</OriginalItemSpec>
-    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\avatars\user_1_1747796056619.jpg'))">
       <SourceType>Package</SourceType>
       <SourceId>DA_Web</SourceId>

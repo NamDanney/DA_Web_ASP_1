@@ -156,7 +156,6 @@ wwwroot\styles\HomePageCSS\TestimonialsSection.css
 wwwroot\styles\HomePageCSS\TravelPlanSection.css
 wwwroot\styles\show\footer.css
 wwwroot\styles\show\header.css
-wwwroot\uploads\avatars\2d155c73-603e-4a5b-aa31-9cdabd52f240_lamal.jpg
 wwwroot\uploads\avatars\user_1_1747796056619.jpg
 wwwroot\uploads\avatars\user_1_1748411672188.png
 wwwroot\uploads\avatars\user_1_1748925154715.jpg

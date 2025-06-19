@@ -71,6 +71,31 @@ namespace DA_Web.Controllers
             return Ok(result);
         }
 
+
+
+        /// <summary>
+        /// Resend OTP for account verification
+        /// </summary>
+        /// <param name="resendDto">Object containing user's email</param>
+        /// <returns>Success status</returns>
+        [HttpPost("ResendOtp")]
+        public async Task<ActionResult<ApiResponse<bool>>> ResendOtp([FromBody] ResendOtpDto resendDto)
+        {
+            if (string.IsNullOrWhiteSpace(resendDto.Email))
+            {
+                return BadRequest(ApiResponse<bool>.ErrorResult("Email is required."));
+            }
+
+            var result = await _authService.ResendOtpAsync(resendDto.Email);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
         /// <summary>
         /// User registration
         /// </summary>

@@ -1,6 +1,6 @@
 ﻿using DA_Web.Data;
 using DA_Web.DTOs.Auth;
-using DA_Web.DTOs.Common; // <-- UserInfoDto sẽ được lấy từ đây
+using DA_Web.DTOs.Common; 
 using DA_Web.Helpers;
 using DA_Web.Models;
 using DA_Web.Models.Enums;
@@ -71,67 +71,49 @@ namespace DA_Web.Services.Implementations
 
         public async Task<ApiResponse<AuthResponseDto>> RegisterAsync(RegisterDto registerDto)
         {
+            // Giữ lại phần kiểm tra lỗi cụ thể
             var validationErrors = new List<string>();
             if (await IsUsernameExistsAsync(registerDto.Username))
-                validationErrors.Add("Username already exists");
+                validationErrors.Add("Tên đăng nhập đã tồn tại.");
             if (await IsEmailExistsAsync(registerDto.Email))
-                validationErrors.Add("Email already exists");
+                validationErrors.Add("Email đã tồn tại.");
             if (await IsPhoneExistsAsync(registerDto.Phone))
-                validationErrors.Add("Phone number already exists");
+                validationErrors.Add("Số điện thoại đã tồn tại.");
 
             var passwordErrors = PasswordHelper.ValidatePasswordStrength(registerDto.Password);
             validationErrors.AddRange(passwordErrors);
 
             if (validationErrors.Any())
             {
-                return ApiResponse<AuthResponseDto>.ErrorResult("Registration failed", validationErrors);
+                return ApiResponse<AuthResponseDto>.ErrorResult("Đăng ký thất bại", validationErrors);
             }
 
-            using (var transaction = await _context.Database.BeginTransactionAsync())
+            // Xóa các OTP cũ của email này để tránh rác
+            var existingOtps = _context.UserOtps.Where(o => o.Email == registerDto.Email);
+            _context.UserOtps.RemoveRange(existingOtps);
+
+            // Chỉ lưu thông tin tạm vào bảng UserOtps
+            var userOtp = new UserOtp
             {
-                try
-                {
-                    var user = new User
-                    {
-                        Username = registerDto.Username,
-                        Email = registerDto.Email,
-                        Phone = registerDto.Phone,
-                        PasswordHash = PasswordHelper.HashPassword(registerDto.Password),
-                        FullName = registerDto.FullName,
-                        Role = RoleType.user,
-                        CreatedAt = DateTime.UtcNow,
-                        UpdatedAt = DateTime.UtcNow
-                    };
-                    _context.Users.Add(user);
-                    await _context.SaveChangesAsync();
+                Email = registerDto.Email,
+                Username = registerDto.Username,
+                FullName = registerDto.FullName,
+                Phone = registerDto.Phone,
+                PasswordHash = PasswordHelper.HashPassword(registerDto.Password),
+                Otp = GenerateOtp(),
+                ExpiresAt = DateTime.UtcNow.AddMinutes(5),
+                Used = false
+            };
 
-                    var otp = GenerateOtp();
-                    var userOtp = new UserOtp
-                    {
-                        Email = user.Email,
-                        Otp = otp,
-                        CreatedAt = DateTime.UtcNow,
-                        ExpiresAt = DateTime.UtcNow.AddMinutes(5),
-                        Used = false
-                    };
-                    _context.UserOtps.Add(userOtp);
-                    await _context.SaveChangesAsync();
+            _context.UserOtps.Add(userOtp);
+            await _context.SaveChangesAsync();
 
-                    var emailSubject = "Xác thực tài khoản của bạn - Phú Yên Travel";
-                    var emailMessage = $"<p>Cảm ơn bạn đã đăng ký.</p><p>Mã OTP của bạn là: <strong>{otp}</strong></p><p>Mã này sẽ hết hạn sau 5 phút.</p>";
-                    await _emailService.SendEmailAsync(user.Email, emailSubject, emailMessage);
+            // Gửi email
+            var emailSubject = "Xác thực tài khoản của bạn - Phú Yên Travel";
+            var emailMessage = $"<p>Cảm ơn bạn đã đăng ký.</p><p>Mã OTP của bạn là: <strong>{userOtp.Otp}</strong></p><p>Mã này sẽ hết hạn sau 5 phút.</p>";
+            await _emailService.SendEmailAsync(userOtp.Email, emailSubject, emailMessage);
 
-                    await transaction.CommitAsync();
-
-                    return ApiResponse<AuthResponseDto>.SuccessResult(null, "Registration successful. Please check your email for OTP to verify your account.");
-                }
-                catch (Exception ex)
-                {
-                    await transaction.RollbackAsync();
-                    Console.WriteLine($"Registration Error: {ex.Message}");
-                    return ApiResponse<AuthResponseDto>.ErrorResult("An error occurred during registration.");
-                }
-            }
+            return ApiResponse<AuthResponseDto>.SuccessResult(null, "Đăng ký thành công. Vui lòng kiểm tra email để xác thực tài khoản.");
         }
 
         public async Task<ApiResponse<UserInfoDto>> GetUserProfileAsync(int userId)
@@ -162,32 +144,55 @@ namespace DA_Web.Services.Implementations
 
         public async Task<ApiResponse<bool>> VerifyOtpAsync(string email, string otp)
         {
-            try
+            // Tìm bản ghi OTP chỉ bằng email để kiểm tra riêng
+            var otpRecord = await _context.UserOtps
+                .FirstOrDefaultAsync(o => o.Email == email && !o.Used && o.ExpiresAt > DateTime.UtcNow);
+
+            // Trường hợp không tìm thấy bản ghi hợp lệ (đã hết hạn hoặc không tồn tại)
+            if (otpRecord == null)
             {
-                var userOtp = await _context.UserOtps
-                    .FirstOrDefaultAsync(o => o.Email == email && o.Otp == otp && !o.Used && o.ExpiresAt > DateTime.UtcNow);
+                return ApiResponse<bool>.ErrorResult("Mã OTP không hợp lệ hoặc đã hết hạn. Vui lòng yêu cầu mã mới.");
+            }
 
-                if (userOtp == null)
+            // Trường hợp mã OTP nhập vào không khớp
+            if (otpRecord.Otp != otp)
+            {
+                otpRecord.Attempts++; // Tăng số lần thử sai
+                if (otpRecord.Attempts >= 5)
                 {
-                    return ApiResponse<bool>.ErrorResult("Mã OTP không hợp lệ hoặc đã hết hạn.");
+                    // Vô hiệu hóa OTP sau 5 lần sai
+                    otpRecord.Used = true;
+                    await _context.SaveChangesAsync();
+                    return ApiResponse<bool>.ErrorResult("Bạn đã nhập sai OTP quá 5 lần. Vui lòng yêu cầu mã mới.");
                 }
-
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-                if (user == null)
-                {
-                    return ApiResponse<bool>.ErrorResult("Không tìm thấy người dùng được liên kết với email này.");
-                }
-
-                userOtp.Used = true;
                 await _context.SaveChangesAsync();
+                return ApiResponse<bool>.ErrorResult($"Mã OTP không đúng. Bạn còn {5 - otpRecord.Attempts} lần thử.");
+            }
 
-                return ApiResponse<bool>.SuccessResult(true, "Tài khoản đã được xác thực thành công!");
-            }
-            catch (Exception ex)
+            // --- Nếu OTP đúng, tiếp tục logic như cũ ---
+            if (await IsUsernameExistsAsync(otpRecord.Username) || await IsEmailExistsAsync(otpRecord.Email))
             {
-                Console.WriteLine($"Verify OTP Error: {ex.Message}");
-                return ApiResponse<bool>.ErrorResult("Đã có lỗi xảy ra trong quá trình xác thực.");
+                _context.UserOtps.Remove(otpRecord);
+                await _context.SaveChangesAsync();
+                return ApiResponse<bool>.ErrorResult("Tên đăng nhập hoặc Email đã được người khác đăng ký. Vui lòng thử lại.");
             }
+
+            var user = new User
+            {
+                Username = otpRecord.Username,
+                Email = otpRecord.Email,
+                Phone = otpRecord.Phone,
+                PasswordHash = otpRecord.PasswordHash,
+                FullName = otpRecord.FullName,
+                Role = RoleType.user,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+            _context.Users.Add(user);
+            _context.UserOtps.Remove(otpRecord);
+            await _context.SaveChangesAsync();
+
+            return ApiResponse<bool>.SuccessResult(true, "Tài khoản đã được xác thực thành công!");
         }
 
         public async Task<ApiResponse<bool>> ChangePasswordAsync(int userId, ChangePasswordDto changePasswordDto)
@@ -322,6 +327,34 @@ namespace DA_Web.Services.Implementations
         public async Task<bool> IsPhoneExistsAsync(string phone)
         {
             return await _context.Users.AnyAsync(u => u.Phone == phone);
+        }
+
+        public async Task<ApiResponse<bool>> ResendOtpAsync(string email)
+        {
+            // Tìm bản ghi đăng ký tạm gần nhất dựa trên email
+            var otpRecord = await _context.UserOtps
+                .Where(o => o.Email == email)
+                .OrderByDescending(o => o.CreatedAt)
+                .FirstOrDefaultAsync();
+
+            if (otpRecord == null || otpRecord.Used)
+            {
+                return ApiResponse<bool>.ErrorResult("Không tìm thấy yêu cầu đăng ký hợp lệ. Vui lòng thử đăng ký lại.");
+            }
+
+            // Tạo mã mới, cập nhật và gia hạn thời gian
+            otpRecord.Otp = GenerateOtp(); // Giả sử bạn có hàm GenerateOtp() như đã làm
+            otpRecord.ExpiresAt = DateTime.UtcNow.AddMinutes(5);
+
+            _context.UserOtps.Update(otpRecord);
+            await _context.SaveChangesAsync();
+
+            // Gửi lại email
+            var emailSubject = "Mã OTP mới của bạn - Phú Yên Travel";
+            var emailMessage = $"<p>Mã OTP mới của bạn là: <strong>{otpRecord.Otp}</strong></p><p>Mã này sẽ hết hạn sau 5 phút.</p>";
+            await _emailService.SendEmailAsync(otpRecord.Email, emailSubject, emailMessage);
+
+            return ApiResponse<bool>.SuccessResult(true, "Mã OTP mới đã được gửi thành công.");
         }
     }
 }

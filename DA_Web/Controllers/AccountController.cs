@@ -76,6 +76,43 @@ namespace DA_Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var registerResult = await _authService.RegisterAsync(model);
+
+            if (registerResult.Success)
+            {
+                // Sử dụng TempData để gửi thông báo thành công tới trang Login
+                TempData["SuccessMessage"] = "Đăng ký tài khoản thành công! Bây giờ bạn có thể đăng nhập.";
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                // Nếu đăng ký thất bại, hiển thị lỗi
+                ModelState.AddModelError(string.Empty, registerResult.Message ?? "Đã có lỗi xảy ra trong quá trình đăng ký.");
+                return View(model);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult VerifyEmail()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()

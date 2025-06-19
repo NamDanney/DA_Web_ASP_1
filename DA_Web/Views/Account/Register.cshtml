@@ -164,11 +164,11 @@
                 setLoadingState(true);
 
                 const formData = {
-                    username: document.getElementById('username').value,
-                    fullName: document.getElementById('fullName').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    password: password,
+                    Username: document.getElementById('username').value,
+                    FullName: document.getElementById('fullName').value,
+                    Email: document.getElementById('email').value,
+                    Phone: document.getElementById('phone').value,
+                    Password: password,
                 };
 
                 try {
@@ -181,10 +181,9 @@
                     const result = await response.json();
 
                     if (result.success) {
-                        // Show success modal to redirect to OTP verification page
                         otpModal.style.display = 'flex';
                     } else {
-                        const errorText = result.message || (result.errors && result.errors.join('<br>')) || 'Đăng ký thất bại.';
+                        const errorText = (result.errors && result.errors.join('<br>')) || result.message || 'Đăng ký thất bại.';
                         showError(errorText);
                     }
                 } catch (error) {

@@ -18,5 +18,6 @@ namespace DA_Web.Services.Interfaces
         Task<bool> IsUsernameExistsAsync(string username);
         Task<bool> IsEmailExistsAsync(string email);
         Task<bool> IsPhoneExistsAsync(string phone);
+        Task<ApiResponse<bool>> ResendOtpAsync(string email);
     }
 }
